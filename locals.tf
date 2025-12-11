@@ -18,15 +18,15 @@ locals {
         # Otherwise, if storage_account_name and storage_account_resource_group_name are provided, construct the storage_account_id.
         settings.storage_account_name != null && settings.storage_account_resource_group_name != null ? format(
           "/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Storage/storageAccounts/%s",
-          data.azurerm_client_config.current.subscription_id,
+          var.configuration.subscription_id,
           settings.storage_account_resource_group_name,
           settings.storage_account_name
         ) : null
       )
       # If storage_account_id is not null, split out name to populate storage_account_name. If null, use storage_account_name directly.
-      storage_account_name = settings.storage_account_id != null ? element(split("/", settings.storage_account_id), 8) : settings.storage_account_name
+      storage_account_name = settings.storage_account_id != null ? split("/", settings.storage_account_id)[8] : settings.storage_account_name
       # If storage_account_id is not null, split out resource group name to populate storage_account_resource_group_name. If null, use storage_account_resource_group_name directly.
-      storage_account_resource_group_name = settings.storage_account_id != null ? element(split("/", settings.storage_account_id), 4) : settings.storage_account_resource_group_name
+      storage_account_resource_group_name = settings.storage_account_id != null ? split("/", settings.storage_account_id)[4] : settings.storage_account_resource_group_name
     }
   ]
 

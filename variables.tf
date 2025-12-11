@@ -4,6 +4,19 @@
 
 ### Dependencies
 
+# If data source is taken from child module it can inadvertently cause resource recreation.
+variable "configuration" {
+  description = "Configuration data such as Tenant ID and Subscription ID."
+  nullable    = false
+  type = object({
+    client_id       = string
+    id              = string
+    object_id       = string
+    subscription_id = string
+    tenant_id       = string
+  })
+}
+
 ### Resources
 
 variable "storage_containers" {
